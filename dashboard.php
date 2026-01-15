@@ -1,10 +1,15 @@
 <?php
 //query untuk mengambil data article
-$sql1 = "SELECT * FROM article ORDER BY tanggal DESC";
-$hasil1 = $conn->query($sql1);
+$sqlarticle = "SELECT * FROM article ORDER BY tanggal DESC";
+$hasilArticle = $conn->query(query: $sqlarticle);
+$sqlgallery = "SELECT * FROM gallery ORDER BY tanggal DESC";
+$hasilGallery = $conn->query(query: $sqlgallery);
+
 
 //menghitung jumlah baris data article
-$jumlah_article = $hasil1->num_rows; 
+$jumlah_article = $hasilArticle->num_rows; 
+$jumlah_gallery = $hasilGallery->num_rows; 
+
 ?>
 <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center pt-4">
     <div class="col">
@@ -29,7 +34,7 @@ $jumlah_article = $hasil1->num_rows;
                         <h5 class="card-title"><i class="bi bi-camera"></i> Gallery</h5> 
                     </div>
                     <div class="p-3">
-                        <span class="badge rounded-pill text-bg-danger fs-2">0</span>
+                        <span class="badge rounded-pill text-bg-danger fs-2"><?php echo $jumlah_gallery; ?></span>
                     </div> 
                 </div>
             </div>

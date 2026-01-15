@@ -126,7 +126,7 @@ include "koneksi.php";
         <div class="container">
           <div class="d-sm-flex flex-sm-row-reverse align-items-center">
             <img
-              src="image/banner.png"
+              src="img/banner.png"
               class="img-fluid"
               width="300"
               alt="Banner Teknologi"
@@ -154,9 +154,9 @@ include "koneksi.php";
           <h1 class="fw-bold display-4 pb">Artikel</h1>
 <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
 <?php
-$sql = "SELECT * FROM article ORDER BY tanggal DESC";
-$hasil = $conn->query($sql);
-while ($row = $hasil->fetch_assoc()){
+$sqlArticle = "SELECT * FROM article ORDER BY tanggal DESC";
+$hasilArticle = $conn->query($sqlArticle);
+while ($row = $hasilArticle->fetch_assoc()){
 ?>
   <div class="col">
     <div class="card h-100">
@@ -171,6 +171,7 @@ while ($row = $hasil->fetch_assoc()){
     </div>
   </div>
 <?php } ?>
+
 </div>
       </section>
 
@@ -402,73 +403,72 @@ while ($row = $hasil->fetch_assoc()){
           </div>
         </div>
       </section>
-
+      
       <section id="gallery" class="text-center p-5 bg-info">
         <div class="container">
-          <h1 class="fw-bold display-4 pb">Gallery</h1>
-          <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-indicators">
-              <!-- Generate buttons dynamically based on the number of items -->
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="0"
-                class="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="1"
-                aria-label="Slide 2"
-              ></button>
-              <!-- Add more buttons as necessary -->
+          <h1 class="fw-bold display-4 pb-3">Gallery</h1>
+          <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            
+          <div class="carousel-indicators">
+             <?php
+             $sqlGallery = "SELECT * FROM gallery ORDER BY tanggal DESC";
+             $hasilGallery = $conn->query($sqlGallery);
+             $no = 0;
+             while ($row = $hasilGallery->fetch_assoc()) {
+              $active = ($no == 0) ? 'active' : '';
+              $current = ($no == 0) ? 'aria-current="true"' : '';
+              ?>
+              <button 
+              type="button" 
+              data-bs-target="#carouselExampleIndicators" 
+              data-bs-slide-to="<?= $no ?>" 
+              class="<?= $active ?>" 
+              <?= $current ?> 
+              aria-label="Slide <?= $no + 1 ?>">
+            </button>
+            <?php 
+            $no++;
+                } 
+                ?>
             </div>
+
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  src="image/komputer1977.png"
-                  class="d-block w-50 mx-auto"
-                  alt="Komputer tahun 1977"
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="image/komputer1980.png"
-                  class="d-block w-50 mx-auto"
-                  alt="Komputer tahun 1980"
-                />
-              </div>
-              <!-- Add more carousel items as necessary -->
+              <?php
+              $sqlGallery = "SELECT * FROM gallery ORDER BY tanggal DESC";
+              $hasilGallery = $conn->query($sqlGallery);
+              $firstItem = true;
+
+              while ($row = $hasilGallery->fetch_assoc()){ 
+        
+                $activeClass = ($firstItem) ? "active" : "";
+                ?>
+            <div class="carousel-item <?= $activeClass ?>">
+            <img src="img/<?= $row['gambar'] ?>" 
+                 class="d-block mx-auto img-fluid" 
+                 style="max-height: 350px; object-fit: contain; width: auto;" 
+                 alt="<?= $row['judul'] ?>">
+            
+            <div class="text-center mt-3 pb-4">
+                <h4 class="fw-bold"><?= $row['judul'] ?></h4>
+                </div>
+              </div>  
+              <?php 
+              $firstItem = false; 
+            } 
+            ?>
             </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
             </button>
-          </div>
         </div>
-      </section>
+    </div>
+</section>
     </main>
 
     <!-- Footer Section -->
